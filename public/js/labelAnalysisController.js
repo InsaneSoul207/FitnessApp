@@ -138,3 +138,81 @@ function initializeLabelAnalysis() {
 
 // Run the initialization when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', initializeLabelAnalysis);
+// Simulated function to analyze label data and calculate preference score
+function analyzeLabelData(labelData) {
+    let score = 100; // Start with a neutral score
+    let ingredients = []; // Array to hold detected ingredients
+    let containsUnhealthyComponents = false; // Flag to track unhealthy components
+
+    // Example of nutritional components to check
+    const unhealthyComponents = ["sugar", "sodium", "trans fat"];
+    const healthyComponents = ["fiber", "protein", "vitamins"];
+
+    // Analyze each component in the label data
+    for (const component in labelData) {
+        if (unhealthyComponents.includes(component.toLowerCase())) {
+            score -= 20; // Deduct points for unhealthy components
+            ingredients.push(`${component}: ${labelData[component]}`);
+            containsUnhealthyComponents = true;
+        } else if (healthyComponents.includes(component.toLowerCase())) {
+            score += 10; // Add points for healthy components
+        }
+    }
+
+    // Final decision logic based on the score
+    let message;
+    if (score <= 40) {
+        message = "Too bad to eat!";
+    } else if (score > 40 && score <= 70) {
+        message = "Consider moderation.";
+    } else {
+        message = "You can enjoy this!";
+    }
+
+    // Return analysis result
+    return {
+        score,
+        message,
+        ingredients,
+        containsUnhealthyComponents,
+    };
+}
+
+// Example usage after scanning the label
+async function scanLabel() {
+    // Code to activate the camera and get the image...
+    // Assuming labelData is obtained after scanning
+    const labelData = await extractLabelDataFromImage(); // Replace with actual extraction logic
+
+    // Analyze the extracted data
+    const analysisResult = analyzeLabelData(labelData);
+    
+    // Update the preference meter based on score
+    updatePreferenceMeter(analysisResult.score);
+    
+    // Display the message to the user
+    document.getElementById("meter-text").innerText = analysisResult.message;
+
+    // If details button is clicked, show ingredients
+    document.getElementById("more-details").onclick = function () {
+        showDetails(analysisResult.ingredients);
+    };
+}
+
+// Function to show product details
+function showDetails(ingredients) {
+    const detailsContainer = document.getElementById("details-container");
+    detailsContainer.innerHTML = ""; // Clear previous details
+    ingredients.forEach((ingredient) => {
+        const detailElement = document.createElement("p");
+        detailElement.innerText = ingredient;
+        detailsContainer.appendChild(detailElement);
+    });
+    detailsContainer.style.display = "block"; // Show details container
+}
+
+// Function to update the preference meter
+function updatePreferenceMeter(score) {
+    const fill = document.getElementById("meter-fill");
+    fill.style.width = `${score}%`;
+}

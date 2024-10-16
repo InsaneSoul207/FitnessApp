@@ -9,14 +9,14 @@
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 16px;
-    background-color: #f9f9f9;
-    color: #333;
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text color */
 }
 
 h1 {
     font-size: 1.8em;
     margin-bottom: 20px;
-    color: #222;
+    color: #ffffff; /* White heading */
     text-align: center;
 }
 
@@ -24,7 +24,7 @@ p {
     font-size: 1em;
     line-height: 1.5;
     margin-bottom: 16px;
-    color: #555;
+    color: #bbb; /* Slightly lighter color for paragraphs */
 }
 
 /* Container */
@@ -33,6 +33,15 @@ p {
     max-width: 500px;
     margin: 40px auto 80px;
     padding: 0 16px;
+}
+
+/* Video Stream Container */
+#camera-stream {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px;
+    background-color: #000; /* Black background for the video container */
+    margin-bottom: 20px; /* Space below video */
 }
 
 /* Forms */
@@ -44,7 +53,7 @@ form {
 label {
     margin-bottom: 8px;
     font-size: 1em;
-    color: #444;
+    color: #ccc; /* Lighter label color */
 }
 
 input[type="text"],
@@ -54,23 +63,25 @@ select,
 textarea {
     padding: 14px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #444; /* Dark border color */
     border-radius: 8px;
     font-size: 1em;
     width: 100%;
+    background-color: #1f1f1f; /* Dark input background */
+    color: #e0e0e0; /* Light text color in inputs */
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-    border-color: #007BFF;
+    border-color: #76c7c0; /* Light focus color */
     outline: none;
 }
 
 /* Buttons */
 button {
     padding: 14px;
-    background-color: #007BFF;
+    background-color: #76c7c0; /* Button background color */
     color: #fff;
     align-items: center;
     font-size: 1em;
@@ -82,7 +93,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #64b3a4; /* Darker shade on hover */
 }
 
 /* Response Messages */
@@ -90,7 +101,7 @@ button:hover {
 #response {
     margin-top: 20px;
     font-size: 1em;
-    color: #28a745;
+    color: #28a745; /* Green response color */
     text-align: center;
 }
 
@@ -99,17 +110,17 @@ button:hover {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
+    background-color: #1f1f1f; /* Dark nav background */
+    border-top: 1px solid #444; /* Darker border */
     display: flex;
     justify-content: space-around;
     padding: 8px 0;
-    box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -1px 6px rgba(255, 255, 255, 0.1); /* Light shadow */
 }
 
 .nav-bar a {
     text-decoration: none;
-    color: #555;
+    color: #ccc; /* Lighter link color */
     font-size: 0.9em;
     display: flex;
     flex-direction: column;
@@ -118,7 +129,7 @@ button:hover {
 }
 
 .nav-bar a.active {
-    color: #007BFF;
+    color: #76c7c0; /* Active link color */
 }
 
 .nav-bar a .icon {
@@ -127,7 +138,7 @@ button:hover {
 }
 
 .nav-bar a:hover {
-    color: #007BFF;
+    color: #76c7c0; /* Hover color */
 }
 
 /* Preference Meter */
@@ -138,7 +149,7 @@ button:hover {
 .preference-meter .meter-bar {
     position: relative;
     height: 20px;
-    background-color: #e6e6e6;
+    background-color: #444; /* Dark background for meter bar */
     border-radius: 10px;
     overflow: hidden;
 }
@@ -146,7 +157,7 @@ button:hover {
 .preference-meter .meter-fill {
     height: 100%;
     width: 0%;
-    background-color: #28a745;
+    background-color: #28a745; /* Fill color */
     border-radius: 10px;
     transition: width 0.5s ease-in-out;
 }
@@ -155,7 +166,7 @@ button:hover {
     text-align: center;
     margin-top: 12px;
     font-size: 1em;
-    color: #333;
+    color: #ccc; /* Light text color for meter */
 }
 
 /* Media Queries for Larger Screens */
@@ -174,11 +185,8 @@ button:hover {
         font-size: 1em;
     }
 }
-p{
-    font-size: 1em;
-    text-align: center;
-}
 
+/* Product Details and Dietician Section */
 .dietician-list {
     display: flex;
     flex-direction: column;
@@ -186,43 +194,31 @@ p{
 }
 
 .dietician-card {
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: #1f1f1f; /* Dark card background */
+    border: 1px solid #444; /* Darker border */
     border-radius: 8px;
     padding: 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* Light shadow */
 }
 
 .dietician-card h2 {
     margin: 0 0 8px;
     font-size: 18px;
-    color: #333;
+    color: #ffffff; /* White text */
 }
 
 .dietician-card p {
     margin: 4px 0;
-    color: #666;
+    color: #bbb; /* Light gray for paragraph text */
 }
 
-.chat-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.chat-button:hover {
-    background-color: #45a049;
-}
+/* Header and Profile Icon */
 .header {
     display: flex;
     justify-content: space-between; /* Space between title and icon */
     align-items: center; /* Center vertically */
     padding: 10px;
-    background-color: #f8f8f8; /* Light background for header */
+    background-color: #1f1f1f; /* Dark header background */
     position: relative; /* Allow absolute positioning of icon */
 }
 
@@ -230,36 +226,23 @@ p{
     padding-top: 20px;
     margin: auto; /* Remove default margin */
     font-size: 1.5em; /* Adjust title size */
+    color: #ffffff; /* White title */
 }
 
 .profile-icon {
     text-decoration: none; /* Remove underline */
-    color: #333; /* Icon color */
-    font-size: 50px; /* Adjust icon size */
+    color: #e0e0e0; /* Light icon color */
+    font-size: 40px; /* Adjust icon size */
     position: absolute; /* Position icon absolutely */
     right: 15px; /* Distance from the right edge */
     top: 10px; /* Distance from the top */
 }
 
 .profile-icon:hover {
-    color: #4CAF50; /* Change color on hover */
-}
-.profile-info {
-    margin: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
+    color: #76c7c0; /* Change color on hover */
 }
 
-.info-item {
-    margin-bottom: 10px;
-}
-
-.info-item label {
-    font-weight: bold;
-}
-
+/* Editing Profile Styles */
 .hidden {
     display: none; /* Hides the edit form initially */
 }
@@ -271,9 +254,11 @@ p{
 .form-group label {
     display: block;
     margin-bottom: 5px;
+    color: #ccc; /* Lighter color for labels */
 }
 
-#edit-button {
+#edit-button,
+#save-button {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -282,22 +267,12 @@ p{
     cursor: pointer;
 }
 
-#edit-button:hover {
+#edit-button:hover,
+#save-button:hover {
     background-color: #45a049;
 }
 
-#save-button {
-    background-color: #2196F3;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#save-button:hover {
-    background-color: #0b7dda;
-}
+/* Plans Section */
 .plans {
     display: flex;
     justify-content: space-around;
@@ -306,14 +281,14 @@ p{
 }
 
 .plan-card {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    background-color: #1f1f1f; /* Dark card background */
+    border: 1px solid #444; /* Darker border */
     border-radius: 8px;
     padding: 15px;
     width: 60%; /* Adjust width as needed for mobile */
     margin: 10px;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); /* Light shadow */
     transition: transform 0.3s;
 }
 
@@ -323,11 +298,11 @@ p{
 
 .price {
     font-size: 1.5em;
-    color: #4CAF50;
+    color: #4CAF50; /* Green color for prices */
 }
 
 .subscribe-button {
-    background-color: #2196F3;
+    background-color: #2196F3; /* Button color */
     color: white;
     border: none;
     padding: 10px 15px;
@@ -337,9 +312,23 @@ p{
 }
 
 .subscribe-button:hover {
-    background-color: #0b7dda;
+    background-color: #0b7dda; /* Darker shade on hover */
 }
-h2{
+
+/* Center Heading */
+h2 {
     font-size: 2.5em;
     text-align: center;
+    color: #ffffff; /* White for headings */
+}
+
+p {
+    text-align: center;
+    color: #bbb; /* Light gray for paragraph text */
+}
+ul{
+    list-style-type:none;
+}
+ul li{
+    padding-bottom: 6px;
 }

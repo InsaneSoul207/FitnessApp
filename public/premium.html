@@ -24,9 +24,9 @@
                 <ul>
                     <li>Access to basic features</li>
                     <li>Weekly tips and articles</li>
-                    <li>Email support</li>
+                    <li>Dietician support</li>
                 </ul>
-                <button class="subscribe-button">Subscribe</button>
+                <button class="subscribe-button" data-plan="Beginner" data-price="10">Subscribe</button>
             </div>
 
             <div class="plan-card">
@@ -35,9 +35,9 @@
                 <ul>
                     <li>All Beginner features</li>
                     <li>Personalized meal plans</li>
-                    <li>Priority email support</li>
+                    <li>Priority support from Dietician</li>
                 </ul>
-                <button class="subscribe-button">Subscribe</button>
+                <button class="subscribe-button" data-plan="Intermediate" data-price="20">Subscribe</button>
             </div>
 
             <div class="plan-card">
@@ -48,7 +48,7 @@
                     <li>One-on-one consultations</li>
                     <li>Exclusive content and resources</li>
                 </ul>
-                <button class="subscribe-button">Subscribe</button>
+                <button class="subscribe-button" data-plan="Advanced" data-price="30">Subscribe</button>
             </div>
         </div>
     </div>
@@ -72,6 +72,33 @@
         </a>
     </div>
 
-    <script src="/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const subscribeButtons = document.querySelectorAll('.subscribe-button');
+            
+            subscribeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const planName = this.dataset.plan;
+                    const price = this.dataset.price;
+
+                    const confirm = window.confirm(`You have selected the ${planName} plan for $${price}/month. Do you want to proceed to payment?`);
+                    if (confirm) {
+                        // Call the payment function
+                        processPayment(planName, price);
+                    } else {
+                        alert("Subscription canceled.");
+                    }
+                });
+            });
+        });
+
+        function processPayment(planName, price) {
+            // Simulating a payment process
+            setTimeout(() => {
+                // Here you would typically call your payment processing API
+                alert(`Payment of $${price} for the ${planName} plan was successful! Thank you for subscribing!`);
+            }, 1000); // Simulate a delay for the payment processing
+        }
+    </script>
 </body>
 </html>

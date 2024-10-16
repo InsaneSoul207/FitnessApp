@@ -1,0 +1,15 @@
+Product Name: Protein Smoothie
+
+Nutrition Facts
+Serving Size: 1 Bottle (300ml)
+---------------------------------------
+Amount per Serving
+Calories: 200
+Total Fat: 4g
+   Saturated Fat: 1g
+Cholesterol: 5mg
+Sodium: 50mg
+Total Carbohydrates: 35g
+   Dietary Fiber: 3g
+   Sugars: 15g
+Protein: 15g

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
@@ -7,21 +8,21 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
+
 <body>
+    <div class="header">
+        <h1>Welcome Back!</h1>
+        <a href="profile.html" class="profile-icon">
+            <i class="fas fa-user-circle"></i>
+        </a>
+    </div>
     <div class="container">
-        <div class="header">
-            <h1>Welcome Back!</h1>
-            <a href="profile.html" class="profile-icon">
-                <i class="fas fa-user-circle"></i>
-            </a>
-        </div>
-
         <p>Scan a product's nutritional label below:</p>
-        <button class="scan-btn" onclick="scanLabel()"><i class="fas fa-camera"></i> Scan Nutrition Label</button>
+        <button class="scan-btn" id="open-camera-btn" onclick="openCamera()"><i class="fas fa-camera"></i> Scan Nutrition Label</button>
 
-        <!-- Video element for camera preview -->
-        <video id="camera-stream" autoplay></video>
+        <video id="camera-stream" autoplay style="display:none;"></video>
         <canvas id="snapshot" style="display:none;"></canvas>
+        <button id="capture-btn" style="display:none;" onclick="captureImage()">Capture</button>
 
         <div class="preference-meter">
             <div class="meter-bar">
@@ -30,10 +31,15 @@
             <div class="meter-text" id="meter-text">Your preference meter will show here...</div>
         </div>
 
-        <div class="action-buttons">
-            <button class="btn" onclick="showMoreDetails()">More Details</button>
-            <button class="btn" onclick="showRecommendations()">Recommendations</button>
-            <button class="btn" onclick="redirectToDietician()">Dietician</button>
+        <div class="action-buttons"><br>
+            <button class="btn" onclick="showMoreDetails()">More Details</button><br>
+            <button class="btn" onclick="showRecommendations()">Recommendations</button><br>
+            <button class="btn" onclick="redirectToDietician()">Dietician</button><br>
+        </div>
+
+        <div id="product-details" style="display:none;">
+            <h3>Product Details</h3>
+            <p id="details-content">Details will be shown here...</p>
         </div>
     </div>
 
@@ -58,17 +64,47 @@
 
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4"></script>
     <script>
+        const userGoal = 'fat loss'; // Dummy user goal constant
+        const nutritionalThresholds = {
+            'muscle gain': {
+                calories: 200,
+                totalFat: 7,
+                totalCarbohydrates: 30,
+                dietaryFiber: 3,
+                sugars: 5,
+                protein: 15
+            },
+            'fat loss': {
+                calories: 180,
+                totalFat: 5,
+                totalCarbohydrates: 15,
+                dietaryFiber: 3.5,
+                sugars: 3.0,
+                protein: 12
+            },
+            // Additional goals can be added here
+        };
+
         let video = document.getElementById('camera-stream');
         let canvas = document.getElementById('snapshot');
         let context = canvas.getContext('2d');
+        let captureButton = document.getElementById('capture-btn');
+        
+        let nutrition = { // Declare nutrition as a global variable
+            calories: 0,
+            totalFat: 0,
+            totalCarbohydrates: 0,
+            sugars: 0,
+            dietaryFibers: 0,
+            protein: 0
+        };
 
-        function scanLabel() {
-            // Request access to the user's camera
+        function openCamera() {
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(stream => {
-                    // Display the video stream in the video element
                     video.srcObject = stream;
-                    video.style.display = 'block';
+                    video.style.display = 'block'; 
+                    captureButton.style.display = 'block';
                 })
                 .catch(error => {
                     console.error('Error accessing the camera', error);
@@ -77,35 +113,107 @@
         }
 
         function captureImage() {
-            // Draw the current video frame onto the canvas
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
-            // Convert the canvas image to a data URL
             const imageDataURL = canvas.toDataURL('image/png');
+            let stream = video.srcObject;
+            let tracks = stream.getTracks();
+            tracks.forEach(track => track.stop());
+            video.style.display = 'none';
+            captureButton.style.display = 'none';
 
-            // Pass the image data to Tesseract.js for OCR
             Tesseract.recognize(
                 imageDataURL,
-                'eng', // language
+                'eng', 
                 {
-                    logger: info => console.log(info), // optional logger to see the progress
+                    logger: info => console.log(info),
                 }
             ).then(({ data: { text } }) => {
-                console.log(text);
-                analyzeLabelText(text); // analyze the scanned text based on user goal
+                console.log('Extracted Text: ', text);
+                analyzeLabelText(text);
             });
         }
 
         function analyzeLabelText(text) {
-            // Dummy logic to analyze the text (you can modify it to suit your needs)
-            if (text.includes('sugar')) {
-                document.getElementById('meter-fill').style.width = '10%';
-                document.getElementById('meter-text').innerText = 'Low preference (contains sugar)';
-            } else {
-                document.getElementById('meter-fill').style.width = '80%';
-                document.getElementById('meter-text').innerText = 'High preference (matches your goal)';
+            // Reset nutrition values
+            nutrition = {
+                calories: 0,
+                totalFat: 0,
+                totalCarbohydrates: 0,
+                sugars: 0,
+                dietaryFibers: 0,
+                protein: 0
+            };
+
+            const patterns = {
+                calories: /Calories:\s*(\d+)/i,
+                totalFat: /Total Fat:\s*([\d.]+)g/i,
+                totalCarbohydrates: /Total Carbohydrates:\s*(\d+)g/i,
+                sugars: /Sugars:\s*(\d+)g/i,
+                dietaryFibers: /Dietary Fiber:\s*(\d+)g/i,
+                protein: /Protein:\s*(\d+)g/i
+            };
+
+            for (let key in patterns) {
+                const match = text.match(patterns[key]);
+                if (match) {
+                    nutrition[key] = parseFloat(match[1]);
+                }
             }
+
+            let preferenceScore = 100;
+
+            // Adjust score based on nutritional content and user goal
+            if (userGoal === 'muscle gain') {
+                if (nutrition.totalFat > nutritionalThresholds['muscle gain'].totalFat) preferenceScore -= 10;
+                if (nutrition.sugars > nutritionalThresholds['muscle gain'].sugars) preferenceScore -= 20;
+                if (nutrition.dietaryFibers < nutritionalThresholds['muscle gain'].dietaryFiber) preferenceScore -= 10;
+                if (nutrition.protein < nutritionalThresholds['muscle gain'].protein) preferenceScore -= 15;
+
+            } else if (userGoal === 'fat loss') {
+                if (nutrition.calories > nutritionalThresholds['fat loss'].calories) preferenceScore -= 20;
+                if (nutrition.totalFat > nutritionalThresholds['fat loss'].totalFat) preferenceScore -= 15;
+                if (nutrition.sugars > nutritionalThresholds['fat loss'].sugars) preferenceScore -= 20;
+                if (nutrition.dietaryFibers < nutritionalThresholds['fat loss'].dietaryFiber) preferenceScore -= 10;
+                if (nutrition.protein < nutritionalThresholds['fat loss'].protein) preferenceScore -= 15;
+            }
+
+            // Set the preference meter based on score
+            if (preferenceScore > 70) {
+                document.getElementById('meter-fill').style.width = '90%';
+                document.getElementById('meter-text').innerText = 'High preference!';
+            } else if (preferenceScore > 40) {
+                document.getElementById('meter-fill').style.width = '60%';
+                document.getElementById('meter-text').innerText = 'Moderate preference!';
+            } else {
+                document.getElementById('meter-fill').style.width = '30%';
+                document.getElementById('meter-text').innerText = 'Low preference!';
+            }
+        }
+
+        function showMoreDetails() {
+            const detailsDiv = document.getElementById('product-details');
+            const detailsContent = document.getElementById('details-content');
+            detailsContent.innerText = `Nutritional Values: 
+            Calories: ${nutrition.calories} 
+            Total Fat: ${nutrition.totalFat}g 
+            Total Carbohydrates: ${nutrition.totalCarbohydrates}g 
+            Sugars: ${nutrition.sugars}g 
+            Dietary Fiber: ${nutrition.dietaryFibers}g 
+            Protein: ${nutrition.protein}g`;
+            detailsDiv.style.display = 'block';
+        }
+
+        function showRecommendations() {
+            // Implement recommendation logic based on user's goal
+            alert('Recommendations based on your goal will be shown here.');
+        }
+
+        function redirectToDietician() {
+            window.location.href = "premium.html";
         }
     </script>
 </body>
+
 </html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Edit Profile</h1>
+        <a href="profile.html" class="profile-icon">
+            <i class="fas fa-user-circle"></i>
+        </a>
+    </div>
+
+    <div class="container">
+        <h2>Update Your Details</h2>
+        <form id="edit-profile-form">
+            <div class="form-group">
+                <label for="edit-name">Name:</label>
+                <input type="text" id="edit-name" value="John Doe" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-gender">Gender:</label>
+                <select id="edit-gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="edit-age">Age:</label>
+                <input type="number" id="edit-age" value="28" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-height">Height:</label>
+                <input type="text" id="edit-height" value="180 cm" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-weight">Weight:</label>
+                <input type="text" id="edit-weight" value="75 kg" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-goal">Goal:</label>
+                <input type="text" id="edit-goal" value="Muscle Gain" required>
+            </div>
+            <button type="submit" id="save-button">Save Changes</button>
+        </form>
+    </div>
+
+    <div class="nav-bar">
+        <a href="home.html">
+            <span class="icon"><i class="fas fa-home"></i></span>
+            <span>Home</span>
+        </a>
+        <a href="goals.html">
+            <span class="icon"><i class="fas fa-bullseye"></i></span>
+            <span>Adjust Goals</span>
+        </a>
+        <a href="premium.html">
+            <span class="icon"><i class="fas fa-star"></i></span>
+            <span>Go Pro</span>
+        </a>
+        <a href="ask.html">
+            <span class="icon"><i class="fas fa-question-circle"></i></span>
+            <span>Ask</span>
+        </a>
+    </div>
+
+    <script>
+        document.getElementById('edit-profile-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get values from the form
+            const name = document.getElementById('edit-name').value;
+            const gender = document.getElementById('edit-gender').value;
+            const age = document.getElementById('edit-age').value;
+            const height = document.getElementById('edit-height').value;
+            const weight = document.getElementById('edit-weight').value;
+            const goal = document.getElementById('edit-goal').value;
+
+            // Save the data to localStorage
+            localStorage.setItem('profile', JSON.stringify({
+                name: name,
+                gender: gender,
+                age: age,
+                height: height,
+                weight: weight,
+                goal: goal
+            }));
+
+            alert('Profile updated successfully!');
+            window.location.href = 'profile.html'; // Redirect to the profile page after saving
+        });
+    </script>
+</body>
+</html>

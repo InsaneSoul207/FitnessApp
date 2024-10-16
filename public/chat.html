@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat with Dietician</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text color */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* Full height for mobile */
+        }
+
+        .header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1f1f1f; /* Slightly lighter background for header */
+        }
+
+        .chat-container {
+            padding: 20px;
+            padding-bottom: 70px;
+            display: flex;
+            flex-direction: column;
+            flex: 1; /* Use available space */
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            background-color: #2a2a2a; /* Message area background */
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px; /* Reduced margin for better fit */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 80%;
+            word-wrap: break-word; /* Wrap long words */
+        }
+
+        .message.user {
+            background-color: #5a5a5a; /* User message background */
+            color: #ffffff;
+            align-self: flex-end;
+        }
+
+        .message.dietician {
+            background-color: #00796b; /* Dietician message background */
+            color: #ffffff;
+            align-self: flex-start;
+        }
+
+        .input-area {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .input-area textarea {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            background-color: #3a3a3a; /* Text area background */
+            color: #ffffff; /* Text color */
+            resize: none; /* Disable resizing */
+            height: 60px; /* Fixed height */
+            min-width: 0; /* Allow flexbox to manage width */
+        }
+
+        .input-area textarea::placeholder {
+            color: #b0b0b0; /* Placeholder color */
+        }
+
+        .input-area button {
+            background-color: #00796b; /* Button background */
+            color: #ffffff; /* Button text color */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Smooth color transition */
+            min-width: 70px; /* Minimum width for button */
+        }
+
+        .input-area button:hover {
+            background-color: #005f54; /* Darker shade on hover */
+        }
+
+
+        /* Media query for mobile responsiveness */
+        @media (max-width: 600px) {
+            .header {
+                padding: 15px; /* Adjust padding for mobile */
+            }
+
+            .messages {
+                padding: 10px; /* Reduced padding */
+            }
+
+            .input-area {
+                flex-direction: column; /* Stack input area elements */
+            }
+
+            .input-area textarea {
+                margin-right: 0; /* Remove right margin */
+                margin-bottom: 10px; /* Add bottom margin for spacing */
+            }
+
+            .input-area button {
+                width: 100%; /* Full width button */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 id="dietician-name">Chat with Dietician</h1>
+        <a href="profile.html" class="profile-icon">
+            <i class="fas fa-user-circle"></i>
+        </a>
+    </div>
+
+    <div class="chat-container">
+        <div class="messages" id="messages"></div>
+        <div class="input-area">
+            <textarea id="user-input" placeholder="Type your message..."></textarea>
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="home.html">
+            <span class="icon"><i class="fas fa-home"></i></span>
+            <span>Home</span>
+        </a>
+        <a href="goals.html">
+            <span class="icon"><i class="fas fa-bullseye"></i></span>
+            <span>Adjust Goals</span>
+        </a>
+        <a href="premium.html">
+            <span class="icon"><i class="fas fa-star"></i></span>
+            <span>Go Pro</span>
+        </a>
+        <a href="ask.html">
+            <span class="icon"><i class="fas fa-question-circle"></i></span>
+            <span>Ask</span>
+        </a>
+    </div>
+
+    <script>
+        // Get the dietician's name from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const dieticianName = urlParams.get('dietician');
+
+        // Set the dietician's name in the header
+        document.getElementById('dietician-name').textContent = `Chat with ${dieticianName}`;
+
+        // Function to add a message to the chat
+        function addMessage(content, sender) {
+            const messagesContainer = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.textContent = content;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight; // Auto-scroll
+        }
+
+        // Send button event listener
+        document.getElementById('send-button').addEventListener('click', () => {
+            const userInput = document.getElementById('user-input');
+            const messageContent = userInput.value.trim();
+
+            if (messageContent) {
+                addMessage(messageContent, 'user');
+                userInput.value = ''; // Clear input field
+
+                // Simulate dietician's response (for demo purposes)
+                setTimeout(() => {
+                    addMessage(`Dietician: I'm here to help!`, 'dietician');
+                }, 1000);
+            }
+        });
+
+        // Optional: Allow pressing "Enter" to send the message
+        document.getElementById('user-input').addEventListener('keypress', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault(); // Prevent adding a new line
+                document.getElementById('send-button').click();
+            }
+        });
+    </script>
+</body>
+</html>

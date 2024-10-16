@@ -6,6 +6,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>body {
+        background-color: #121212; /* Dark background */
+        color: #e0e0e0; /* Light text color */
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #1f1f1f; /* Header background */
+    }
+
+    .container {
+        padding: 20px;
+        max-width: 600px; /* Limit max width for better readability */
+        margin: auto; /* Center the container */
+    }
+
+    .profile-info {
+        background-color: #2a2a2a; /* Profile info background */
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    }
+
+    h2 {
+        margin-top: 0; /* Remove margin for the heading */
+    }
+
+    .info-item {
+        margin-bottom: 10px; /* Space between items */
+    }
+
+    .info-item label {
+        font-weight: bold; /* Bold labels */
+    }
+
+    #edit-button {
+        margin-top: 15px;
+        background-color: #00796b; /* Button background */
+        color: #ffffff; /* Button text color */
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%; /* Full width for the button */
+    }
+
+    #edit-button:hover {
+        background-color: #005f54; /* Darker shade on hover */
+    }</style>
 </head>
 <body>
     <div class="header">
@@ -45,41 +101,6 @@
         </div>
 
         <button id="edit-button">Edit Profile</button>
-
-        <div id="edit-form" class="hidden">
-            <h3>Edit Profile</h3>
-            <form>
-                <div class="form-group">
-                    <label for="edit-name">Name:</label>
-                    <input type="text" id="edit-name" value="John Doe">
-                </div>
-                <div class="form-group">
-                    <label for="edit-gender">Gender:</label>
-                    <select id="edit-gender">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="edit-age">Age:</label>
-                    <input type="number" id="edit-age" value="28">
-                </div>
-                <div class="form-group">
-                    <label for="edit-height">Height:</label>
-                    <input type="text" id="edit-height" value="180 cm">
-                </div>
-                <div class="form-group">
-                    <label for="edit-weight">Weight:</label>
-                    <input type="text" id="edit-weight" value="75 kg">
-                </div>
-                <div class="form-group">
-                    <label for="edit-goal">Goal:</label>
-                    <input type="text" id="edit-goal" value="Muscle Gain">
-                </div>
-                <button type="submit" id="save-button">Save Changes</button>
-            </form>
-        </div>
     </div>
 
     <div class="nav-bar">
@@ -101,21 +122,27 @@
         </a>
     </div>
 
-    <script src="/js/app.js"></script>
     <script>
-        const editButton = document.getElementById('edit-button');
-        const editForm = document.getElementById('edit-form');
+        // Function to load profile data from localStorage
+        function loadProfile() {
+            const profileData = JSON.parse(localStorage.getItem('profile'));
 
-        editButton.addEventListener('click', () => {
-            editForm.classList.toggle('hidden');
-        });
+            if (profileData) {
+                document.getElementById('name').innerText = profileData.name;
+                document.getElementById('gender').innerText = profileData.gender;
+                document.getElementById('age').innerText = profileData.age;
+                document.getElementById('height').innerText = profileData.height;
+                document.getElementById('weight').innerText = profileData.weight;
+                document.getElementById('goal').innerText = profileData.goal;
+            }
+        }
 
-        // Save button functionality (for demonstration)
-        document.getElementById('save-button').addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent form submission
-            // Here you would typically save the updated profile data to your server
-            alert('Profile updated successfully!');
-            editForm.classList.add('hidden'); // Hide the form again
+        // Load profile data on page load
+        document.addEventListener('DOMContentLoaded', loadProfile);
+        
+        // Edit button functionality
+        document.getElementById('edit-button').addEventListener('click', () => {
+            window.location.href = 'edit_profile.html'; // Redirect to edit profile page
         });
     </script>
 </body>
