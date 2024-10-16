@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <h1>User Profile</h1>
+        <a href="home.html" class="profile-icon">
+            <i class="fas fa-user-circle"></i>
+        </a>
+    </div>
+    
+    <div class="container">
+        <div class="profile-info">
+            <h2>Profile Details</h2>
+            <div class="info-item">
+                <label for="name">Name:</label>
+                <span id="name">John Doe</span>
+            </div>
+            <div class="info-item">
+                <label for="gender">Gender:</label>
+                <span id="gender">Male</span>
+            </div>
+            <div class="info-item">
+                <label for="age">Age:</label>
+                <span id="age">28</span>
+            </div>
+            <div class="info-item">
+                <label for="height">Height:</label>
+                <span id="height">180 cm</span>
+            </div>
+            <div class="info-item">
+                <label for="weight">Weight:</label>
+                <span id="weight">75 kg</span>
+            </div>
+            <div class="info-item">
+                <label for="goal">Goal:</label>
+                <span id="goal">Muscle Gain</span>
+            </div>
+        </div>
+
+        <button id="edit-button">Edit Profile</button>
+
+        <div id="edit-form" class="hidden">
+            <h3>Edit Profile</h3>
+            <form>
+                <div class="form-group">
+                    <label for="edit-name">Name:</label>
+                    <input type="text" id="edit-name" value="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="edit-gender">Gender:</label>
+                    <select id="edit-gender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-age">Age:</label>
+                    <input type="number" id="edit-age" value="28">
+                </div>
+                <div class="form-group">
+                    <label for="edit-height">Height:</label>
+                    <input type="text" id="edit-height" value="180 cm">
+                </div>
+                <div class="form-group">
+                    <label for="edit-weight">Weight:</label>
+                    <input type="text" id="edit-weight" value="75 kg">
+                </div>
+                <div class="form-group">
+                    <label for="edit-goal">Goal:</label>
+                    <input type="text" id="edit-goal" value="Muscle Gain">
+                </div>
+                <button type="submit" id="save-button">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="home.html">
+            <span class="icon"><i class="fas fa-home"></i></span>
+            <span>Home</span>
+        </a>
+        <a href="goals.html">
+            <span class="icon"><i class="fas fa-bullseye"></i></span>
+            <span>Adjust Goals</span>
+        </a>
+        <a href="premium.html">
+            <span class="icon"><i class="fas fa-star"></i></span>
+            <span>Go Pro</span>
+        </a>
+        <a href="ask.html">
+            <span class="icon"><i class="fas fa-question-circle"></i></span>
+            <span>Ask</span>
+        </a>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script>
+        const editButton = document.getElementById('edit-button');
+        const editForm = document.getElementById('edit-form');
+
+        editButton.addEventListener('click', () => {
+            editForm.classList.toggle('hidden');
+        });
+
+        // Save button functionality (for demonstration)
+        document.getElementById('save-button').addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent form submission
+            // Here you would typically save the updated profile data to your server
+            alert('Profile updated successfully!');
+            editForm.classList.add('hidden'); // Hide the form again
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome Back!</h1>
+            <a href="profile.html" class="profile-icon">
+                <i class="fas fa-user-circle"></i>
+            </a>
+        </div>
+
+        <p>Scan a product's nutritional label below:</p>
+        <button class="scan-btn" onclick="scanLabel()"><i class="fas fa-camera"></i> Scan Nutrition Label</button>
+
+        <!-- Video element for camera preview -->
+        <video id="camera-stream" autoplay></video>
+        <canvas id="snapshot" style="display:none;"></canvas>
+
+        <div class="preference-meter">
+            <div class="meter-bar">
+                <div class="meter-fill" id="meter-fill"></div>
+            </div>
+            <div class="meter-text" id="meter-text">Your preference meter will show here...</div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn" onclick="showMoreDetails()">More Details</button>
+            <button class="btn" onclick="showRecommendations()">Recommendations</button>
+            <button class="btn" onclick="redirectToDietician()">Dietician</button>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="home.html" class="active">
+            <span class="icon"><i class="fas fa-home"></i></span>
+            <span>Home</span>
+        </a>
+        <a href="goals.html">
+            <span class="icon"><i class="fas fa-bullseye"></i></span>
+            <span>Adjust Goals</span>
+        </a>
+        <a href="premium.html">
+            <span class="icon"><i class="fas fa-star"></i></span>
+            <span>Go Pro</span>
+        </a>
+        <a href="ask.html">
+            <span class="icon"><i class="fas fa-question-circle"></i></span>
+            <span>Ask</span>
+        </a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4"></script>
+    <script>
+        let video = document.getElementById('camera-stream');
+        let canvas = document.getElementById('snapshot');
+        let context = canvas.getContext('2d');
+
+        function scanLabel() {
+            // Request access to the user's camera
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    // Display the video stream in the video element
+                    video.srcObject = stream;
+                    video.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error accessing the camera', error);
+                    alert('Unable to access the camera. Please check your camera permissions.');
+                });
+        }
+
+        function captureImage() {
+            // Draw the current video frame onto the canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Convert the canvas image to a data URL
+            const imageDataURL = canvas.toDataURL('image/png');
+
+            // Pass the image data to Tesseract.js for OCR
+            Tesseract.recognize(
+                imageDataURL,
+                'eng', // language
+                {
+                    logger: info => console.log(info), // optional logger to see the progress
+                }
+            ).then(({ data: { text } }) => {
+                console.log(text);
+                analyzeLabelText(text); // analyze the scanned text based on user goal
+            });
+        }
+
+        function analyzeLabelText(text) {
+            // Dummy logic to analyze the text (you can modify it to suit your needs)
+            if (text.includes('sugar')) {
+                document.getElementById('meter-fill').style.width = '10%';
+                document.getElementById('meter-text').innerText = 'Low preference (contains sugar)';
+            } else {
+                document.getElementById('meter-fill').style.width = '80%';
+                document.getElementById('meter-text').innerText = 'High preference (matches your goal)';
+            }
+        }
+    </script>
+</body>
+</html>
