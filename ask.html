@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ask a Question</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Dieticians Available</h1>
+        <a href="profile.html" class="profile-icon">
+            <i class="fas fa-user-circle"></i>
+        </a>
+        <div class="dietician-list" id="dietician-list">
+            <!-- Dietician cards will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="home.html">
+            <span class="icon"><i class="fas fa-home"></i></span>
+            <span>Home</span>
+        </a>
+        <a href="goals.html">
+            <span class="icon"><i class="fas fa-bullseye"></i></span>
+            <span>Adjust Goals</span>
+        </a>
+        <a href="premium.html">
+            <span class="icon"><i class="fas fa-star"></i></span>
+            <span>Go Pro</span>
+        </a>
+        <a href="ask.html" class="active">
+            <span class="icon"><i class="fas fa-question-circle"></i></span>
+            <span>Ask</span>
+        </a>
+    </div>
+
+    <script src="ask.js"></script>
+    <script>
+        // Sample data for dieticians (this would typically come from a server)
+        const dieticians = [
+            {
+                name: "Dr. Jane Doe",
+                specialty: "Weight Loss, Nutrition Plans",
+                price: "$50 per session"
+            },
+            {
+                name: "Dr. John Smith",
+                specialty: "Muscle Gain, Sports Nutrition",
+                price: "$60 per session"
+            },
+            {
+                name: "Dr. Emily Davis",
+                specialty: "Vegetarian Nutrition, Weight Management",
+                price: "$55 per session"
+            },
+            {
+                name: "Dr. Michael Brown",
+                specialty: "Keto Diet, Meal Plans",
+                price: "$65 per session"
+            }
+        ];
+
+        // Function to render dietician cards
+        function renderDieticians() {
+            const dieticianList = document.getElementById('dietician-list');
+            dieticians.forEach(dietician => {
+                const card = document.createElement('div');
+                card.className = 'dietician-card';
+                card.innerHTML = `
+                    <h2>${dietician.name}</h2>
+                    <p>Specialty: ${dietician.specialty}</p>
+                    <p>Price: ${dietician.price}</p>
+                    <button class="chat-button">Chat Now</button>
+                `;
+                dieticianList.appendChild(card);
+            });
+        }
+
+        // Call the function to render dieticians on page load
+        document.addEventListener('DOMContentLoaded', renderDieticians);
+    </script>
+</body>
+</html>

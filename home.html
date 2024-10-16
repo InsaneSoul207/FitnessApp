@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include the optimized CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome Back!</h1><a href="profile.html" class="profile-icon">
+            <i class="fas fa-user-circle"></i>
+        </a>
+        <p>Scan a product's nutritional label below:</p>
+        <button onclick="scanLabel()"><i class="fas fa-camera"></i> Scan Nutrition Label</button>
+
+        <div class="preference-meter">
+            <div class="meter-bar">
+                <div class="meter-fill" id="meter-fill"></div>
+            </div>
+            <div class="meter-text" id="meter-text">Your preference meter will show here...</div>
+        </div>
+
+        <!-- Action Buttons -->
+        <button onclick="showMoreDetails()">More Details</button>
+        <button onclick="showRecommendations()">Recommendations</button>
+        <button onclick="redirectToDietician()">Dietician</button>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <a href="home.html" class="active">
+            <span class="icon"><i class="fas fa-home"></i></span>
+            <span>Home</span>
+        </a>
+        <a href="goals.html">
+            <span class="icon"><i class="fas fa-bullseye"></i></span>
+            <span>Adjust Goals</span>
+        </a>
+        <a href="premium.html">
+            <span class="icon"><i class="fas fa-star"></i></span>
+            <span>Go Pro</span>
+        </a>
+        <a href="ask.html">
+            <span class="icon"><i class="fas fa-question-circle"></i></span>
+            <span>Ask</span>
+        </a>
+    </div>
+
+    <!-- Include your JavaScript file -->
+    <script src="public\js\app.js"></script>
+</body>
+</html>
